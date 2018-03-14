@@ -218,7 +218,7 @@ def main():
                 n = len(dev_loss)
                 if n < 5:
                     return False
-                for i in xrange(n-4, n):
+                for i in range(n-4, n):
                     if dev_loss[i] > dev_loss[i-1]:
                         return False
                 return True
@@ -247,9 +247,9 @@ def main():
                     print("{}: dev-aver, loss {:g}, acc {:g}".format(time_str, loss, accuracy))
                     dev_loss.append(accuracy)
                     print("\nRecently accuracy:")
-                    print dev_loss[-10:]
+                    print(dev_loss[-10:])
                     if overfit(dev_loss):
-                        print 'Overfit!!'
+                        print('Overfit!!')
                         break
                     print("")
                 if current_step % FLAGS.checkpoint_every == 0:

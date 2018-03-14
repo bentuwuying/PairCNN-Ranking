@@ -21,8 +21,8 @@ class Ranking(object):
                 name="W")
             self.embedded_chars_left = tf.expand_dims(tf.nn.embedding_lookup(W, self.input_left), -1)
             self.embedded_chars_right = tf.expand_dims(tf.nn.embedding_lookup(W, self.input_right), -1)
-            print self.embedded_chars_left
-            print self.embedded_chars_right
+            print(self.embedded_chars_left)
+            print(self.embedded_chars_right)
 
         # Create a convolution + maxpool layer for each filter size
         pooled_outputs_left = []
@@ -74,8 +74,8 @@ class Ranking(object):
         num_filters_total = num_filters * len(filter_sizes)
         self.h_pool_left = tf.reshape(tf.concat(3, pooled_outputs_left), [-1, num_filters_total], name='h_pool_left')
         self.h_pool_right = tf.reshape(tf.concat(3, pooled_outputs_right), [-1, num_filters_total], name='h_pool_right')
-        print self.h_pool_left
-        print self.h_pool_right
+        print(self.h_pool_left)
+        print(self.h_pool_right)
 
         # Compute similarity
         with tf.name_scope("similarity"):
@@ -85,7 +85,7 @@ class Ranking(object):
                 initializer=tf.contrib.layers.xavier_initializer())
             self.transform_left = tf.matmul(self.h_pool_left, W)
             self.sims = tf.reduce_sum(tf.mul(self.transform_left, self.h_pool_right), 1, keep_dims=True)
-            print self.sims
+            print(self.sims)
 
         # Keeping track of l2 regularization loss (optional)
         l2_loss = tf.constant(0.0)
@@ -107,7 +107,7 @@ class Ranking(object):
         # Add dropout
         with tf.name_scope("dropout"):
             self.h_drop = tf.nn.dropout(self.hidden_output, self.dropout_keep_prob, name="hidden_output_drop")
-            print self.h_drop
+            print(self.h_drop)
 
         # Final (unnormalized) scores and predictions
         with tf.name_scope("output"):
